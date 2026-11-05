@@ -2,61 +2,69 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tri Ân Thầy Cô - 20/11 Trường THPT Minh Châu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tri Ân Thầy Cô - 20/11 THPT Minh Châu</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --primary: #800020;
-            --primary-light: #a31535;
-            --gold: #d4af37;
-            --bg-grad: linear-gradient(135deg, #2c0005 0%, #4a0d17 50%, #1a0003 100%);
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(212, 175, 55, 0.3);
+            --bg-color: #120307;
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(230, 180, 80, 0.25);
+            --gold: #f3c669;
+            --gold-light: #fff0be;
+            --text-main: #f9fafb;
+            --text-sub: #d1d5db;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: var(--bg-grad);
-            color: #f3f4f6;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(128, 0, 32, 0.5) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(180, 80, 0, 0.3) 0%, transparent 40%);
+            background-attachment: fixed;
+            color: var(--text-main);
             min-height: 100vh;
+            padding: 20px 12px 60px 12px;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* Hiệu ứng hạt sáng nền */
-        .sparkles {
+        /* Hiệu ứng hoa rơi nhẹ nhàng */
+        .petals-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 1;
+            overflow: hidden;
         }
 
-        .sparkle {
+        .petal {
             position: absolute;
-            background: var(--gold);
-            border-radius: 50%;
-            animation: floatSparkle 4s ease-in-out infinite;
-            opacity: 0.6;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%);
+            border-radius: 150% 0 150% 0;
+            opacity: 0.4;
+            animation: fall linear infinite;
         }
 
-        @keyframes floatSparkle {
-            0%, 100% { transform: translateY(0) scale(1); opacity: 0.2; }
-            50% { transform: translateY(-30px) scale(1.2); opacity: 0.8; }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(105vh) rotate(360deg); }
         }
 
-        /* Container chính */
-        .container {
-            max-width: 900px;
+        /* Khung chứa nội dung chính */
+        .wrapper {
+            max-width: 480px; /* Tối ưu cho điện thoại */
             margin: 0 auto;
-            padding: 40px 20px;
             position: relative;
             z-index: 2;
         }
@@ -64,538 +72,353 @@
         /* Header */
         header {
             text-align: center;
-            margin-bottom: 40px;
-            animation: fadeInDown 1s ease-out;
+            margin-top: 10px;
+            margin-bottom: 24px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(243, 198, 105, 0.15);
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
         }
 
         header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
+            font-family: 'Caveat', cursive;
+            font-size: 3rem;
+            line-height: 1.1;
             color: var(--gold);
-            margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            margin-bottom: 6px;
         }
 
         header p {
-            font-size: 1.1rem;
-            color: #d1d5db;
-            letter-spacing: 1px;
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            font-weight: 400;
         }
 
-        /* Music Player Widget */
-        .music-player {
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 50px;
-            padding: 12px 24px;
+        /* Trình phát nhạc chạm thân thiện trên mobile */
+        .player-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 14px 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            max-width: 420px;
-            margin: 0 auto 40px auto;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            animation: fadeIn 1.2s ease-out;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
 
-        .music-info {
+        .player-info {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .music-info i {
-            font-size: 1.5rem;
+        .disc-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(243, 198, 105, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: var(--gold);
-            animation: pulse 2s infinite;
+            font-size: 1.2rem;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        .disc-icon.spinning {
+            animation: spin 4s linear infinite;
         }
 
-        .music-text .title {
-            font-size: 0.9rem;
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .player-text .song-name {
+            font-size: 0.95rem;
             font-weight: 600;
             color: #fff;
         }
 
-        .music-text .artist {
-            font-size: 0.75rem;
-            color: #9ca3af;
+        .player-text .artist-name {
+            font-size: 0.78rem;
+            color: var(--text-sub);
         }
 
         .play-btn {
             background: var(--gold);
+            color: #120307;
             border: none;
-            width: 42px; height: 42px;
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
             cursor: pointer;
-            color: #1a0003;
-            font-size: 1.1rem;
-            display: flex; align-items: center; justify-content: center;
-            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 4px 12px rgba(243, 198, 105, 0.4);
+            transition: transform 0.15s active;
         }
 
-        .play-btn:hover {
-            transform: scale(1.1);
-            background: #e6c555;
+        .play-btn:active {
+            transform: scale(0.92);
         }
 
-        /* Thư viện ảnh trường Minh Châu */
-        .gallery-section {
-            margin-bottom: 50px;
-            animation: fadeInUp 1s ease-out;
+        /* Thư viện ảnh kiểu lướt xem trên điện thoại */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
         }
 
         .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            color: var(--gold);
-            text-align: center;
-            margin-bottom: 25px;
-            position: relative;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--gold-light);
         }
 
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 2px;
-            background: var(--gold);
-            margin: 8px auto 0;
-        }
-
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
+        .gallery-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 28px;
         }
 
         .photo-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
             overflow: hidden;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            cursor: pointer;
-        }
-
-        .photo-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
         }
 
         .photo-card img {
             width: 100%;
-            height: 220px;
+            height: 230px;
             object-fit: cover;
             display: block;
-            transition: transform 0.5s;
         }
 
-        .photo-card:hover img {
-            transform: scale(1.05);
-        }
-
-        .photo-caption {
-            padding: 15px;
-            text-align: center;
-            font-size: 0.95rem;
+        .photo-info {
+            padding: 12px 16px;
+            font-size: 0.88rem;
             font-weight: 500;
-            color: #f3f4f6;
-        }
-
-        /* Thiệp chúc mừng */
-        .card-section {
-            background: rgba(20, 0, 5, 0.7);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-            position: relative;
-            margin-bottom: 40px;
-        }
-
-        .card-section h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            color: var(--gold);
-            margin-bottom: 20px;
+            color: var(--text-main);
             text-align: center;
         }
 
-        .card-content {
-            font-size: 1.05rem;
-            line-height: 1.8;
+        /* Thư tri ân / Thiệp */
+        .letter-card {
+            background: rgba(30, 8, 15, 0.85);
+            border: 1px solid var(--card-border);
+            border-radius: 22px;
+            padding: 24px 20px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            margin-bottom: 30px;
+        }
+
+        .letter-title {
+            font-family: 'Caveat', cursive;
+            font-size: 2.2rem;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .letter-body {
+            font-size: 0.95rem;
+            line-height: 1.7;
             color: #e5e7eb;
             text-align: justify;
-            margin-bottom: 25px;
+            margin-bottom: 18px;
         }
 
-        .card-footer-text {
+        .letter-sign {
             text-align: right;
             font-style: italic;
+            font-size: 0.9rem;
             color: var(--gold);
             font-weight: 600;
-        }
-
-        /* Modal Phóng lớn ảnh */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 100;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal img {
-            max-width: 90%;
-            max-height: 85%;
-            border-radius: 12px;
-            border: 2px solid var(--gold);
         }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 20px 0;
-            color: #9ca3af;
-            font-size: 0.85rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 20px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Modal phóng to ảnh khi chạm vào */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
         }
 
-        @media (max-width: 600px) {
-            header h1 { font-size: 2.1rem; }
-            .card-section { padding: 22px; }
-            .music-player { max-width: 100%; }
+        .modal img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 12px;
+            border: 1px solid var(--gold);
         }
     </style>
 </head>
 <body>
 
-    <div class="sparkles" id="sparkles"></div>
+    <!-- Hiệu ứng hoa rơi -->
+    <div class="petals-container" id="petals"></div>
 
-    <div class="container">
+    <div class="wrapper">
+        <!-- Tiêu đề -->
         <header>
-            <h1>Tri Ân Thầy Cô 20/11</h1>
-            <p>Trường THPT Minh Châu – Nơi ươm mầm những ước mơ</p>
+            <span class="badge">20 Tháng 11</span>
+            <h1>Tri Ân Thầy Cô</h1>
+            <p>Trường THPT Minh Châu thân yêu</p>
         </header>
 
         <!-- Trình phát nhạc MP3 -->
-        <div class="music-player">
-            <div class="music-info">
-                <i class="fa-solid fa-music"></i>
-                <div class="music-text">
-                    <div class="title">Sớm Mai Sân Trường</div>
-                    <div class="artist">THPT Minh Châu</div>
+        <div class="player-card">
+            <div class="player-info">
+                <div class="disc-icon" id="discIcon">
+                    <i class="fa-solid fa-compact-disc"></i>
+                </div>
+                <div class="player-text">
+                    <div class="song-name">Sớm Mai Sân Trường</div>
+                    <div class="artist-name">THPT Minh Châu</div>
                 </div>
             </div>
-            <button class="play-btn" id="playBtn" onclick="togglePlay()" aria-label="Phát nhạc">
+            <button class="play-btn" onclick="togglePlay()" id="playBtn" aria-label="Phát nhạc">
                 <i class="fa-solid fa-play" id="playIcon"></i>
             </button>
             <audio id="bgMusic" loop preload="auto">
                 <source src="assets/nhac-nen.mp3" type="audio/mpeg">
-                Trình duyệt của bạn không hỗ trợ phát âm thanh.
             </audio>
         </div>
 
-        <!-- Thư viện ảnh trường Minh Châu -->
-        <section class="gallery-section">
-            <h2 class="section-title">Mái Trường Minh Châu Thân Yêu</h2>
-            <div class="photo-grid">
-                <div class="photo-card" onclick="openModal('assets/truong-1.jpg')">
-                    <img src="assets/truong-1.jpg" alt="Góc sân trường hoa nở THPT Minh Châu">
-                    <div class="photo-caption">Nắng nghiêng qua hàng cây[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)</div>
-                </div>
-                <div class="photo-card" onclick="openModal('assets/truong-2.jpg')">
-                    <img src="assets/truong-2.jpg" alt="Bầu trời mây trắng sân trường Minh Châu">
-                    <div class="photo-caption">Bầu trời mây trắng tuổi học trò[span_4](start_span)[span_4](end_span)</div>
-                </div>
-                <div class="photo-card" onclick="openModal('assets/truong-3.jpg')">
-                    <img src="assets/truong-3.jpg" alt="Toàn cảnh khuôn viên THPT Minh Châu">
-                    <div class="photo-caption">Khuôn viên THPT Minh Châu[span_5](start_span)[span_5](end_span)</div>
-                </div>
-            </div>
-        </section>
+        <!-- Thư viện ảnh kỷ niệm -->
+        <div class="section-header">
+            <h2 class="section-title"><i class="fa-solid fa-camera-retro" style="color: var(--gold); margin-right: 6px;"></i> Hình Ảnh Mái Trường</h2>
+        </div>
 
-        <!-- Lời chúc / Thiệp điện tử -->
-        <section class="card-section">
-            <h3>Lời Tri Ân Từ Trái Tim</h3>
-            <div class="card-content">
-                "Sớm mai sân trường, nắng nghiêng qua hàng cây, tiếng trống ngân lên gọi mùa vui trở lại... Minh Châu thân thương, bàn tay thầy cô thắp sáng những ước mơ.[span_6](start_span)"[span_6](end_span)
+        <div class="gallery-container">
+            <div class="photo-card" onclick="openPhoto('assets/truong-1.jpg')">
+                <img src="assets/truong-1.jpg" alt="Cổng trường Minh Châu">
+                <div class="photo-info">Nắng nghiêng qua hàng cây[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto('assets/truong-2.jpg')">
+                <img src="assets/truong-2.jpg" alt="Sân trường Minh Châu">
+                <div class="photo-info">Bầu trời mây trắng sân trường Minh Châu[span_6](start_span)[span_6](end_span)</div>
+            </div>
+
+            <div class="photo-card" onclick="openPhoto('assets/truong-3.jpg')">
+                <img src="assets/truong-3.jpg" alt="Khuôn viên lớp học">
+                <div class="photo-info">Khuôn viên THPT Minh Châu[span_7](start_span)[span_7](end_span)</div>
+            </div>
+        </div>
+
+        <!-- Thiệp chúc mừng -->
+        <div class="letter-card">
+            <div class="letter-title">Lời Tri Ân Từ Trái Tim</div>
+            <div class="letter-body">
+                "Sớm mai sân trường, nắng nghiêng qua hàng cây, tiếng trống ngân lên gọi mùa vui trở lại... Minh Châu thân thương, bàn tay thầy cô thắp sáng những ước mơ.[span_8](start_span)"[span_8](end_span)
                 <br><br>
-                Nhân dịp Ngày Nhà giáo Việt Nam 20/11, chúng em xin gửi lời tri ân sâu sắc nhất đến toàn thể các thầy cô giáo trường THPT Minh Châu. Cảm ơn thầy cô đã luôn tận tụy, dịu dàng dìu dắt chúng em qua từng bài học, mở ra những nhịp cầu tương lai tươi sáng[span_7](start_span)[span_7](end_span). Kính chúc thầy cô luôn dồi dào sức khỏe, hạnh phúc và giữ mãi ngọn lửa đam mê với sự nghiệp trồng người cao quý!
+                Nhân ngày Nhà giáo Việt Nam 20/11, chúng em xin gửi lời tri ân sâu sắc nhất tới toàn thể thầy cô giáo trường THPT Minh Châu. Kính chúc thầy cô luôn dồi dào sức khỏe, luôn đong đầy nhiệt huyết để dẫn dắt các thế hệ học sinh cập bến tri thức thành công!
             </div>
-            <div class="card-footer-text">
-                – Tập thể học sinh Trường THPT Minh Châu –
+            <div class="letter-sign">
+                – Tập thể học sinh THPT Minh Châu –
             </div>
-        </section>
+        </div>
 
         <footer>
-            &copy; 2026 Designed with ❤️ for 20/11 | THPT Minh Châu
+            &copy; 2026 Designed for 20/11 | THPT Minh Châu
         </footer>
     </div>
 
-    <!-- Modal phóng to ảnh -->
-    <div class="modal" id="imageModal" onclick="closeModal()">
-        <img id="modalImg" src="" alt="Ảnh xem trước">
+    <!-- Phóng to ảnh khi nhấn vào -->
+    <div class="modal" id="photoModal" onclick="closePhoto()">
+        <img id="modalImage" src="" alt="Ảnh phóng to">
     </div>
 
     <script>
-        // Tạo hiệu ứng hạt sáng nền
-        const sparklesContainer = document.getElementById('sparkles');
-        for (let i = 0; i < 35; i++) {
-            const sparkle = document.createElement('div');
-            sparkle.classList.add('sparkle');
-            sparkle.style.top = Math.random() * 100 + '%';
-            sparkle.style.left = Math.random() * 100 + '%';
-            sparkle.style.width = (Math.random() * 4 + 2) + 'px';
-            sparkle.style.height = sparkle.style.width;
-            sparkle.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            sparkle.style.animationDelay = (Math.random() * 2) + 's';
-            sparklesContainer.appendChild(sparkle);
+        // Tạo cánh hoa rơi
+        const petalsContainer = document.getElementById('petals');
+        for (let i = 0; i < 20; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.width = (Math.random() * 10 + 8) + 'px';
+            petal.style.height = (Math.random() * 12 + 10) + 'px';
+            petal.style.animationDuration = (Math.random() * 5 + 4) + 's';
+            petal.style.animationDelay = (Math.random() * 3) + 's';
+            petalsContainer.appendChild(petal);
         }
 
-        // Xử lý phát / dừng nhạc MP3
+        // Điều khiển âm thanh
         const audio = document.getElementById('bgMusic');
-        const playBtn = document.getElementById('playBtn');
         const playIcon = document.getElementById('playIcon');
-        let autoPlayAttempted = false;
+        const discIcon = document.getElementById('discIcon');
+        let isStarted = false;
 
         function togglePlay() {
             if (audio.paused) {
                 audio.play().then(() => {
-                    playIcon.classList.remove('fa-play');
-                    playIcon.classList.add('fa-pause');
-                }).catch(err => {
-                    console.log("Audio play error:", err);
-                });
+                    playIcon.className = 'fa-solid fa-pause';
+                    discIcon.classList.add('spinning');
+                }).catch(e => console.log(e));
             } else {
                 audio.pause();
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
+                playIcon.className = 'fa-solid fa-play';
+                discIcon.classList.remove('spinning');
             }
         }
 
-        // Tự động phát nhạc khi chạm nhẹ lần đầu vào bất kỳ vị trí nào trên màn hình
-        document.addEventListener('click', function firstClickPlay() {
-            if (!autoPlayAttempted && audio.paused) {
+        // Tự động phát khi chạm vào màn hình điện thoại lần đầu
+        document.addEventListener('touchstart', function startAudioOnTouch() {
+            if (!isStarted && audio.paused) {
                 audio.play().then(() => {
-                    playIcon.classList.remove('fa-play');
-                    playIcon.classList.add('fa-pause');
+                    playIcon.className = 'fa-solid fa-pause';
+                    discIcon.classList.add('spinning');
                 }).catch(() => {});
-                autoPlayAttempted = true;
+                isStarted = true;
             }
-            document.removeEventListener('click', firstClickPlay);
+            document.removeEventListener('touchstart', startAudioOnTouch);
         });
 
-        // Phóng to / Thu nhỏ ảnh
-        function openModal(src) {
-            document.getElementById('modalImg').src = src;
-            document.getElementById('imageModal').style.display = 'flex';
+        // Phóng to ảnh
+        function openPhoto(src) {
+            document.getElementById('modalImage').src = src;
+            document.getElementById('photoModal').style.display = 'flex';
         }
 
-        function closeModal() {
-            document.getElementById('imageModal').style.display = 'none';
-        }
-    </script>
-</body>
-</html>
-Nam 20/11, chúng em xin gửi lời tri ân sâu sắc nhất đến các thầy cô giáo tại trường THPT Minh Châu. Cảm ơn thầy cô đã luôn tận tụy, kiên nhẫn dìu dắt chúng em trên con đường tri thức và trưởng thành. Kính chúc thầy cô luôn dồi dào sức khỏe, hạnh phúc và giữ mãi ngọn lửa đam mê với sự nghiệp trồng người cao quý!
-            </div>
-            <div class="card-footer-text">
-                – Tập thể học sinh trường THPT Minh Châu –
-            </div>
-        </section>
-
-        <footer>
-            &copy; 2026 Designed with ❤️ for 20/11
-        </footer>
-    </div>
-
-    <script>
-        // Tạo hiệu ứng hạt sáng lấp lánh ngẫu nhiên
-        const sparklesContainer = document.getElementById('sparkles');
-        for (let i = 0; i < 35; i++) {
-            const sparkle = document.createElement('div');
-            sparkle.classList.add('sparkle');
-            sparkle.style.top = Math.random() * 100 + '%';
-            sparkle.style.left = Math.random() * 100 + '%';
-            sparkle.style.width = (Math.random() * 4 + 2) + 'px';
-            sparkle.style.height = sparkle.style.width;
-            sparkle.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            sparkle.style.animationDelay = (Math.random() * 2) + 's';
-            sparklesContainer.appendChild(sparkle);
-        }
-
-        // Điều khiển phát/dừng nhạc MP3
-        const audio = document.getElementById('bgMusic');
-        const playBtn = document.getElementById('playBtn');
-        const playIcon = document.getElementById('playIcon');
-
-        function togglePlay() {
-            if (audio.paused) {
-                audio.play();
-                playIcon.classList.remove('fa-play');
-                playIcon.classList.add('fa-pause');
-            } else {
-                audio.pause();
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
-            }
+        function closePhoto() {
+            document.getElementById('photoModal').style.display = 'none';
         }
     </script>
 </body>
-</html>
-te-950 text-white rounded-3xl p-8 flex flex-col items-center justify-between border-2 border-amber-400/40 shadow-2xl overflow-hidden">
-                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-amber-500/10 rounded-full blur-2xl"></div>
+                        </html>
                     
-                    <div class="text-center space-y-2 mt-4">
-                        <i class="fas fa-award text-4xl text-amber-400"></i>
-                        <p class="text-amber-300 font-medium text-xs tracking-widest uppercase">Thiệp Chúc Mừng 20/11</p>
-                    </div>
-
-                    <div class="text-center space-y-3">
-                        <h3 class="text-3xl sm:text-4xl font-handwriting text-amber-200">Kính Tặng Thầy Cô</h3>
-                        <p class="text-xs sm:text-sm text-slate-300 max-w-xs mx-auto">"Người thầy tốt như ngọn nến – tự đốt cháy mình để soi sáng đường đi cho người khác."</p>
-                    </div>
-
-                    <div class="mb-4 flex items-center gap-2 bg-amber-500/20 px-5 py-2 rounded-full border border-amber-400/30 text-xs text-amber-200 font-medium animate-pulse">
-                        <i class="fas fa-hand-pointer"></i> Nhấp để mở thiệp
-                    </div>
-                </div>
-
-                <!-- Nội Dung Thiệp (Back) -->
-                <div class="flip-card-back absolute inset-0 w-full h-full bg-amber-50/95 text-slate-900 rounded-3xl p-6 sm:p-8 flex flex-col justify-between border-2 border-amber-300 shadow-2xl overflow-y-auto">
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center border-b border-amber-200 pb-3">
-                            <span class="font-serif font-bold text-red-900 text-lg sm:text-xl">Tri Ân Thầy Cô Kính Yêu</span>
-                            <i class="fas fa-quote-right text-amber-600/40 text-2xl"></i>
-                        </div>
-
-                        <p class="font-handwriting text-xl sm:text-2xl text-red-950 leading-snug">
-                            "Có một nghề không trồng cây vào đất<br>
-                            Nhưng cho đời những đóa hoa thơm..."
-                        </p>
-
-                        <p class="text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
-                            Nhân ngày Nhà giáo Việt Nam 20/11, chúng con xin gửi lời tri ân sâu sắc nhất tới Thầy Cô. Cảm ơn Thầy Cô đã luôn tận tụy, kiên nhẫn dìu dắt và truyền cho chúng con không chỉ kiến thức mà cả những bài học làm người vô giá. Kính chúc Thầy Cô luôn mạnh khỏe, hạnh phúc và giữ mãi ngọn lửa nhiệt huyết với sự nghiệp trồng người!
-                        </p>
-                    </div>
-
-                    <div class="pt-4 border-t border-amber-200 flex justify-between items-end">
-                        <div>
-                            <p class="text-[11px] text-amber-800 font-semibold uppercase">Tập thể học trò</p>
-                            <p class="text-xs font-bold text-slate-900">Mãi Mãi Biết Ơn Thầy Cô</p>
-                        </div>
-                        <span class="text-xs text-amber-700 font-medium hover:underline"><i class="fas fa-redo mr-1"></i>Lật lại</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 2: GIỚI THIỆU MÁI TRƯỜNG KÍNH YÊU (PHOTO GALLERY) -->
-    <section id="school-section" class="py-24 px-4 bg-gradient-to-b from-amber-100/50 via-white to-amber-50/60">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-14">
-                <span class="text-amber-700 font-semibold uppercase tracking-wider text-sm">Kỷ Niệm Thắm Tình</span>
-                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-slate-900 mt-1">Mái Trường Thân Yêu</h2>
-                <div class="w-16 h-1 bg-amber-500 mx-auto mt-3 rounded-full"></div>
-                <p class="text-slate-600 mt-2 text-sm sm:text-base">Nơi lưu giữ những ký ức đẹp đẽ nhất của tuổi học trò</p>
-            </div>
-
-            <!-- Gallery Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-                
-                <!-- Ảnh 1: Cổng trường / Sân trường -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 border border-amber-100 flex flex-col">
-                    <div class="h-56 overflow-hidden relative">
-                        <!-- Thử tải file local trong thư mục assets/truong-1.jpg trước, nếu chưa có sẽ tự nhận ảnh placeholder đẹp -->
-                        <img src="assets/truong-1.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80';" alt="Cổng trường" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
-                    </div>
-                    <div class="p-5 flex-grow flex flex-col justify-between">
-                        <div>
-                            <h4 class="font-bold text-slate-900 text-lg font-serif">Khuôn Viên Mái Trường</h4>
-                            <p class="text-xs sm:text-sm text-slate-600 mt-1">Hàng cây xanh mát và khoảng sân trường rợp bóng cờ mỗi giờ ra chơi.</p>
-                        </div>
-                        <span class="mt-4 text-xs font-semibold text-amber-700 flex items-center gap-1">
-                            <i class="fas fa-map-marker-alt"></i> Sân trường kỷ niệm
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Ảnh 2: Lớp học & Thầy Cô -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 border border-amber-100 flex flex-col">
-                    <div class="h-56 overflow-hidden relative">
-                        <img src="assets/truong-2.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80';" alt="Lớp học" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
-                    </div>
-                    <div class="p-5 flex-grow flex flex-col justify-between">
-                        <div>
-                            <h4 class="font-bold text-slate-900 text-lg font-serif">Giờ Học Tình Thầy Trò</h4>
-                            <p class="text-xs sm:text-sm text-slate-600 mt-1">Những bài giảng mê say, tiếng phấn rơi cùng bài học làm người sâu sắc.</p>
-                        </div>
-                        <span class="mt-4 text-xs font-semibold text-amber-700 flex items-center gap-1">
-                            <i class="fas fa-chalkboard-teacher"></i> Lớp học thân thương
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Ảnh 3: Tập thể lớp / Hoạt động -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 border border-amber-100 flex flex-col">
-                    <div class="h-56 overflow-hidden relative">
-                        <img src="assets/truong-3.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80';" alt="Tập thể lớp" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
-                    </div>
-                    <div class="p-5 flex-grow flex flex-col justify-between">
-                        <div>
-                            <h4 class="font-bold text-slate-900 text-lg font-serif">Kỷ Niệm Tuổi Học Trò</h4>
-                            <p class="text-xs sm:text-sm text-slate-600 mt-1">Nụ cười rạng rỡ của bạn bè và Thầy Cô trong những ngày hội lớn.</p>
-                        </div>
-                        <span class="mt-4 text-xs font-semibold text-amber-700 flex items-center gap-1">
-                            <i class="fas fa-users"></i> Tập thể thân yêu
-                        </span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 3: VIDEO TRI ÂN -->
-    <section id="video-section" class="py-24 px-4 bg-slate-950 text-white relative">
-        <div class="max-w-4xl mx-auto text-center relative z-20">
-            <span class="text-amber-400 font-semibold uppercase tracking-wider text-sm">Thước Phim Ý Nghĩa</span>
-            <h2 class="text-3xl sm:text-4xl font-serif font-bold text-gradient-gold mt-1">Giai Điệu Biết Ơn</h2>
-            <div class="w-16 h-1 bg-amber-500 mx-auto mt-3 rounded-full mb-10"></div>
-
-            <!-- Video Player Embedded -->
-            <div class="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl border-2 border-amber-500/30 bg-black">
-             
