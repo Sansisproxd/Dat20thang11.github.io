@@ -86,13 +86,14 @@
         .music-player {
             background: var(--glass);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
             border-radius: 50px;
             padding: 12px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            max-width: 400px;
+            max-width: 420px;
             margin: 0 auto 40px auto;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             animation: fadeIn 1.2s ease-out;
@@ -130,11 +131,11 @@
         .play-btn {
             background: var(--gold);
             border: none;
-            width: 40px; height: 40px;
+            width: 42px; height: 42px;
             border-radius: 50%;
             cursor: pointer;
             color: #1a0003;
-            font-size: 1rem;
+            font-size: 1.1rem;
             display: flex; align-items: center; justify-content: center;
             transition: transform 0.2s, background 0.2s;
         }
@@ -170,7 +171,7 @@
 
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
         }
 
@@ -180,8 +181,10 @@
             border-radius: 16px;
             overflow: hidden;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             transition: transform 0.3s, box-shadow 0.3s;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
         }
 
         .photo-card:hover {
@@ -191,7 +194,7 @@
 
         .photo-card img {
             width: 100%;
-            height: 200px;
+            height: 220px;
             object-fit: cover;
             display: block;
             transition: transform 0.5s;
@@ -216,6 +219,7 @@
             border-radius: 24px;
             padding: 40px;
             backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.6);
             position: relative;
             margin-bottom: 40px;
@@ -244,6 +248,24 @@
             font-weight: 600;
         }
 
+        /* Modal Phóng lớn ảnh */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 85%;
+            border-radius: 12px;
+            border: 2px solid var(--gold);
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -267,14 +289,14 @@
         }
 
         @media (max-width: 600px) {
-            header h1 { font-size: 2.2rem; }
-            .card-section { padding: 20px; }
+            header h1 { font-size: 2.1rem; }
+            .card-section { padding: 22px; }
+            .music-player { max-width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Các hạt sáng nền -->
     <div class="sparkles" id="sparkles"></div>
 
     <div class="container">
@@ -288,16 +310,16 @@
             <div class="music-info">
                 <i class="fa-solid fa-music"></i>
                 <div class="music-text">
-                    <div class="title">Bụi Phấn & Lời Tri Ân</div>
-                    <div class="artist">Nhạc nền 20/11</div>
+                    <div class="title">Sớm Mai Sân Trường</div>
+                    <div class="artist">THPT Minh Châu</div>
                 </div>
             </div>
-            <button class="play-btn" id="playBtn" onclick="togglePlay()">
+            <button class="play-btn" id="playBtn" onclick="togglePlay()" aria-label="Phát nhạc">
                 <i class="fa-solid fa-play" id="playIcon"></i>
             </button>
-            <audio id="bgMusic" loop>
+            <audio id="bgMusic" loop preload="auto">
                 <source src="assets/nhac-nen.mp3" type="audio/mpeg">
-                Trình duyệt của bạn không hỗ trợ thẻ audio.
+                Trình duyệt của bạn không hỗ trợ phát âm thanh.
             </audio>
         </div>
 
@@ -305,17 +327,17 @@
         <section class="gallery-section">
             <h2 class="section-title">Mái Trường Minh Châu Thân Yêu</h2>
             <div class="photo-grid">
-                <div class="photo-card">
-                    <img src="assets/truong-1.jpg" alt="Cổng và khuôn viên trường">
-                    <div class="photo-caption">Góc sân trường rợp bóng cây</div>
+                <div class="photo-card" onclick="openModal('assets/truong-1.jpg')">
+                    <img src="assets/truong-1.jpg" alt="Góc sân trường hoa nở THPT Minh Châu">
+                    <div class="photo-caption">Nắng nghiêng qua hàng cây[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)</div>
                 </div>
-                <div class="photo-card">
-                    <img src="assets/truong-2.jpg" alt="Toàn cảnh sân trường">
-                    <div class="photo-caption">Bầu trời mây trắng sân trường Minh Châu</div>
+                <div class="photo-card" onclick="openModal('assets/truong-2.jpg')">
+                    <img src="assets/truong-2.jpg" alt="Bầu trời mây trắng sân trường Minh Châu">
+                    <div class="photo-caption">Bầu trời mây trắng tuổi học trò[span_4](start_span)[span_4](end_span)</div>
                 </div>
-                <div class="photo-card">
-                    <img src="assets/truong-3.jpg" alt="Không gian lớp học">
-                    <div class="photo-caption">Mái trường rộn rã tiếng cười tuổi học trò</div>
+                <div class="photo-card" onclick="openModal('assets/truong-3.jpg')">
+                    <img src="assets/truong-3.jpg" alt="Toàn cảnh khuôn viên THPT Minh Châu">
+                    <div class="photo-caption">Khuôn viên THPT Minh Châu[span_5](start_span)[span_5](end_span)</div>
                 </div>
             </div>
         </section>
@@ -324,9 +346,86 @@
         <section class="card-section">
             <h3>Lời Tri Ân Từ Trái Tim</h3>
             <div class="card-content">
-                "Sớm mai sân trường, nắng nghiêng qua hàng cây, tiếng trống ngân lên gọi mùa vui trở lại... Dẫu mai đi xa, lời cô thầy còn đó, dẫn chúng em qua từng nhịp cầu tương lai." 
+                "Sớm mai sân trường, nắng nghiêng qua hàng cây, tiếng trống ngân lên gọi mùa vui trở lại... Minh Châu thân thương, bàn tay thầy cô thắp sáng những ước mơ.[span_6](start_span)"[span_6](end_span)
                 <br><br>
-                Nhân dịp Ngày Nhà giáo Việt Nam 20/11, chúng em xin gửi lời tri ân sâu sắc nhất đến các thầy cô giáo tại trường THPT Minh Châu. Cảm ơn thầy cô đã luôn tận tụy, kiên nhẫn dìu dắt chúng em trên con đường tri thức và trưởng thành. Kính chúc thầy cô luôn dồi dào sức khỏe, hạnh phúc và giữ mãi ngọn lửa đam mê với sự nghiệp trồng người cao quý!
+                Nhân dịp Ngày Nhà giáo Việt Nam 20/11, chúng em xin gửi lời tri ân sâu sắc nhất đến toàn thể các thầy cô giáo trường THPT Minh Châu. Cảm ơn thầy cô đã luôn tận tụy, dịu dàng dìu dắt chúng em qua từng bài học, mở ra những nhịp cầu tương lai tươi sáng[span_7](start_span)[span_7](end_span). Kính chúc thầy cô luôn dồi dào sức khỏe, hạnh phúc và giữ mãi ngọn lửa đam mê với sự nghiệp trồng người cao quý!
+            </div>
+            <div class="card-footer-text">
+                – Tập thể học sinh Trường THPT Minh Châu –
+            </div>
+        </section>
+
+        <footer>
+            &copy; 2026 Designed with ❤️ for 20/11 | THPT Minh Châu
+        </footer>
+    </div>
+
+    <!-- Modal phóng to ảnh -->
+    <div class="modal" id="imageModal" onclick="closeModal()">
+        <img id="modalImg" src="" alt="Ảnh xem trước">
+    </div>
+
+    <script>
+        // Tạo hiệu ứng hạt sáng nền
+        const sparklesContainer = document.getElementById('sparkles');
+        for (let i = 0; i < 35; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.width = (Math.random() * 4 + 2) + 'px';
+            sparkle.style.height = sparkle.style.width;
+            sparkle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            sparkle.style.animationDelay = (Math.random() * 2) + 's';
+            sparklesContainer.appendChild(sparkle);
+        }
+
+        // Xử lý phát / dừng nhạc MP3
+        const audio = document.getElementById('bgMusic');
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
+        let autoPlayAttempted = false;
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                }).catch(err => {
+                    console.log("Audio play error:", err);
+                });
+            } else {
+                audio.pause();
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+            }
+        }
+
+        // Tự động phát nhạc khi chạm nhẹ lần đầu vào bất kỳ vị trí nào trên màn hình
+        document.addEventListener('click', function firstClickPlay() {
+            if (!autoPlayAttempted && audio.paused) {
+                audio.play().then(() => {
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                }).catch(() => {});
+                autoPlayAttempted = true;
+            }
+            document.removeEventListener('click', firstClickPlay);
+        });
+
+        // Phóng to / Thu nhỏ ảnh
+        function openModal(src) {
+            document.getElementById('modalImg').src = src;
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+Nam 20/11, chúng em xin gửi lời tri ân sâu sắc nhất đến các thầy cô giáo tại trường THPT Minh Châu. Cảm ơn thầy cô đã luôn tận tụy, kiên nhẫn dìu dắt chúng em trên con đường tri thức và trưởng thành. Kính chúc thầy cô luôn dồi dào sức khỏe, hạnh phúc và giữ mãi ngọn lửa đam mê với sự nghiệp trồng người cao quý!
             </div>
             <div class="card-footer-text">
                 – Tập thể học sinh trường THPT Minh Châu –
