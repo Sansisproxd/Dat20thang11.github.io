@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tri Ân Thầy Cô & Mái Trường Kính Yêu - 20/11</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        amberGold: '#D97706',
+                        warmRed: '#991B1B',
+                        deepRed: '#450A0A',
+                    },
+                    fontFamily: {
+                        sans: ['Be Vietnam Pro', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        handwriting: ['Dancing Script', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #fffbe6; }
+        ::-webkit-scrollbar-thumb { background: #d97706; border-radius: 4px; }
+
+        /* Canvas hiệu ứng hoa rơi */
+        #petal-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Gradient chữ ánh kim */
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #FFE082 0%, #D97706 50%, #FFF8E1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .bg-gradient-gold {
+            background: linear-gradient(135deg, #d97706 0%, #fbbf24 50%, #b45309 100%);
+        }
+
+        /* Card Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .glass-card-dark {
+            background: rgba(30, 27, 75, 0.6);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+
+        /* 3D Flip Card */
+        .perspective-1000 { perspective: 1000px; }
+        .flip-card-inner {
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card-open .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Pulse glow animation */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(217, 119, 6, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(245, 158, 11, 0.8); }
+        }
+        .glow-effect { animation: pulseGlow 3s infinite; }
+    </style>
+</head>
+<body class="bg-amber-50/60 text-slate-800 font-sans selection:bg-amber-200 selection:text-amber-900 overflow-x-hidden relative">
+
+    <!-- Canvas Cánh Hoa & Hạt Sáng Rơi -->
+    <canvas id="petal-canvas"></canvas>
+
+    <!-- TRÌNH PHÁT NHẠC NỀN CUSTOM (Audio Player Floating) -->
+    <div class="fixed bottom-5 right-5 z-50 flex items-center bg-slate-900/90 text-white p-2.5 rounded-full shadow-2xl border border-amber-400/40 backdrop-blur-md transition-all duration-300 hover:scale-105">
+        <button id="bgm-toggle" onclick="toggleBGM()" class="w-11 h-11 rounded-full bg-gradient-gold text-slate-950 flex items-center justify-center shadow-lg focus:outline-none glow-effect" title="Bật/Tắt Nhạc Nền">
+            <i id="bgm-icon" class="fas fa-music text-lg"></i>
+        </button>
+        <div id="audio-info" class="ml-3 mr-3 hidden sm:block text-left text-xs">
+            <p class="font-bold text-amber-300 truncate max-w-[120px]">Nhạc Tri Ân 20/11</p>
+            <p id="audio-status" class="text-slate-400">Nhấp để phát nhạc</p>
+        </div>
+        <!-- Audio HTML5: Trỏ đến file mp3 tự chọn hoặc file online mặc định -->
+        <audio id="bgm-player" loop preload="auto">
+            <!-- Ưu tiên file local tự chọn trong thư mục assets/nhac-nen.mp3 -->
+            <source src="assets/nhac-nen.mp3" type="audio/mpeg">
+            <!-- Dự phòng nhạc online nếu chưa chép file local -->
+            <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=piano-moment-114478.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-amber-500/20 text-white py-3.5 px-6">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2 font-serif text-lg font-bold text-gradient-gold">
+                <i class="fas fa-graduation-cap text-amber-400"></i> Tri Ân 20/11
+            </a>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-200">
+                <a href="#hero" class="hover:text-amber-400 transition">Trang Chủ</a>
+                <a href="#letter-section" class="hover:text-amber-400 transition">Thiệp Tri Ân</a>
+                <a href="#school-section" class="hover:text-amber-400 transition">Mái Trường Kính Yêu</a>
+                <a href="#video-section" class="hover:text-amber-400 transition">Video Tri Ân</a>
+                <a href="#ai-section" class="hover:text-amber-400 transition">Tạo Lời Chúc AI</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header id="hero" class="relative min-h-screen flex items-center justify-center text-center px-4 pt-20 overflow-hidden bg-gradient-to-b from-slate-950 via-red-950 to-amber-950 text-white">
+        <!-- Overlay nghệ thuật -->
+        <div class="absolute inset-0 bg-cover bg-center opacity-15 mix-blend-overlay" style="background-image: url('assets/truong-hoc.jpg'), url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1600&q=80');"></div>
+        
+        <div class="relative z-20 max-w-4xl mx-auto space-y-6 py-12">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/30 backdrop-blur-md">
+                <i class="fas fa-heart text-red-400 text-xs animate-pulse"></i>
+                <span class="text-amber-300 font-medium text-xs sm:text-sm tracking-widest uppercase">Tôn Sư Trọng Đạo - Uống Nước Nhớ Nguồn</span>
+            </div>
+            
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-serif font-bold text-gradient-gold leading-tight drop-shadow-xl">
+                CHÚC MỪNG NGÀY NHÀ GIÁO VIỆT NAM
+            </h1>
+            
+            <p class="text-3xl sm:text-5xl font-handwriting text-amber-200 drop-shadow">
+                20 tháng 11
+            </p>
+            
+            <p class="text-base sm:text-xl text-slate-200 max-w-2xl mx-auto leading-relaxed font-light px-4">
+                Tri ân những người thầy, người cô đã thầm lặng gieo mầm tri thức, nâng cánh ước mơ cho bao thế hệ học trò dưới mái trường thân yêu.
+            </p>
+
+            <div class="pt-6 flex flex-wrap justify-center gap-4">
+                <a href="#letter-section" class="px-8 py-3.5 rounded-full bg-gradient-gold text-slate-950 font-bold hover:opacity-90 transition duration-300 shadow-xl transform hover:-translate-y-0.5">
+                    <i class="fas fa-envelope-open-text mr-2"></i>Mở Thiệp 3D
+                </a>
+                <a href="#school-section" class="px-8 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/30 backdrop-blur-md font-semibold transition duration-300 shadow-md">
+                    <i class="fas fa-school mr-2 text-amber-300"></i>Thăm Mái Trường
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+            <a href="#letter-section" class="text-amber-300/80 hover:text-amber-300">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- SECTION 1: 3D FLIP GREETING CARD -->
+    <section id="letter-section" class="py-24 px-4 max-w-5xl mx-auto">
+        <div class="text-center mb-14">
+            <span class="text-amber-700 font-semibold uppercase tracking-wider text-sm">Thông Điệp Tri Ân</span>
+            <h2 class="text-3xl sm:text-4xl font-serif font-bold text-slate-900 mt-1">Lá Thư Gửi Thầy Cô</h2>
+            <div class="w-16 h-1 bg-amber-500 mx-auto mt-3 rounded-full"></div>
+            <p class="text-slate-600 mt-2 text-sm sm:text-base">Nhấp vào bìa thiệp bên dưới để lật thiệp và đọc lời chúc mến tặng Thầy Cô</p>
+        </div>
+
+        <!-- 3D Interactive Card Container -->
+        <div class="perspective-1000 max-w-xl mx-auto h-[480px] sm:h-[450px]">
+            <div id="flip-card" class="flip-card-inner w-full h-full relative cursor-pointer shadow-2xl rounded-3xl" onclick="toggleCard()">
+                
+                <!-- Bìa Thiệp (Front) -->
+                <div class="flip-card-front absolute inset-0 w-full h-full bg-gradient-to-br from-red-900 via-red-950 to-slate-950 text-white rounded-3xl p-8 flex flex-col items-center justify-between border-2 border-amber-400/40 shadow-2xl overflow-hidden">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-amber-500/10 rounded-full blur-2xl"></div>
+                    
+                    <div class="text-center space-y-2 mt-4">
+                        <i class="fas fa-award text-4xl text-amber-400"></i>
+                        <p class="text-amber-300 font-medium text-xs tracking-widest uppercase">Thiệp Chúc Mừng 20/11</p>
+                    </div>
+
+                    <div class="text-center space-y-3">
+                        <h3 class="text-3xl sm:text-4xl font-handwriting text-amber-200">Kính Tặng Thầy Cô</h3>
+                        <p class="text-xs sm:text-sm text-slate-300 max-w-xs mx-auto">"Người thầy tốt như ngọn nến – tự đốt cháy mình để soi sáng đường đi cho người khác."</p>
+                    </div>
+
+                    <div class="mb-4 flex items-center gap-2 bg-amber-500/20 px-5 py-2 rounded-full border border-amber-400/30 text-xs text-amber-200 font-medium animate-pulse">
+                        <i class="fas fa-hand-pointer"></i> Nhấp để mở thiệp
+                    </div>
+                </div>
+
+                <!-- Nội Dung Thiệp (Back) -->
+                <div class="flip-card-back absolute inset-0 w-full h-full bg-amber-50/95 text-slate-900 rounded-3xl p-6 sm:p-8 flex flex-col justify-between border-2 border-amber-300 shadow-2xl overflow-y-auto">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center border-b border-amber-200 pb-3">
+                            <span class="font-serif font-bold text-red-900 text-lg sm:text-xl">Tri Ân Thầy Cô Kính Yêu</span>
+                            <i class="fas fa-quote-right text-amber-600/40 text-2xl"></i>
+                        </div>
+
+                        <p class="font-handwriting text-xl sm:text-2xl text-red-950 leading-snug">
+                            "Có một nghề không trồng cây vào đất<br>
+                            Nhưng cho đời những đóa hoa thơm..."
+                        </p>
+
+                        <p class="text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            Nhân ngày Nhà giáo Việt Nam 20/11, chúng con xin gửi lời tri ân sâu sắc nhất tới Thầy Cô. Cảm ơn Thầy Cô đã luôn tận tụy, kiên nhẫn dìu dắt và truyền cho chúng con không chỉ kiến thức mà cả những bài học làm người vô giá. Kính chúc Thầy Cô luôn mạnh khỏe, hạnh phúc và giữ mãi ngọn lửa nhiệt huyết với sự nghiệp trồng người!
+                        </p>
+                    </div>
+
+                    <div class="pt-4 border-t border-amber-200 flex justify-between items-end">
+                        <div>
+                            <p class="text-[11px] text-amber-800 font-semibold uppercase">Tập thể học trò</p>
+                            <p class="text-xs font-bold text-slate-900">Mãi Mãi Biết Ơn Thầy Cô</p>
+                        </div>
+                        <span class="text-xs text-amber-700 font-medium hover:underline"><i class="fas fa-redo mr-1"></i>Lật lại</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: GIỚI THIỆU MÁI TRƯỜNG KÍNH YÊU (PHOTO GALLERY) -->
+    <section id="school-section" class="py-24 px-4 bg-gradient-to-b from-amber-100/50 via-white to-amber-50/60">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-14">
+                <span class="text-amber-700 font-semibold uppercase tracking-wider text-sm">Kỷ Niệm Thắm Tình</span>
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-slate-900 mt-1">Mái Trường Thân Yêu</h2>
+                <div class="w-16 h-1 bg-amber-500 mx-auto mt-3 rounded-full"></div>
+                <p class="text-slate-600 mt-2 text-sm sm:text-base">Nơi lưu giữ những ký ức đẹp đẽ nhất của tuổi học trò</p>
+            </div>
+
+            <!-- Hướng dẫn nhanh cho người dùng trên GitHub -->
+            <div class="mb-8 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs sm:text-sm text-amber-900 flex items-start gap-3 shadow-sm">
+                <i class="fas fa-info-circle text-amber-600 text-lg mt-0.5"></i>
+                <div>
+                    <strong>Mẹo dành cho bạn:</strong> Bạn có thể thay thế các tấm ảnh bên dưới bằng ảnh thực tế trường của bạn bằng cách copy file ảnh vào thư mục <code>assets/</code> trên GitHub (ví dụ: <code>assets/truong-1.jpg</code>, <code>assets/truong-2.jpg</code>,...).
+                </div>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+                
+                <!-- Ảnh 1: Cổng trường / Sân trường -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 border border-amber-100 flex flex-col">
+                    <div class="h-56 overflow-hidden relative">
+                        <!-- Thử tải file local trong thư mục assets/truong-1.jpg trước, nếu chưa có sẽ tự nhận ảnh placeholder đẹp -->
+                        <img src="assets/truong-1.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80';" alt="Cổng trường" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                    </div>
+                    <div class="p-5 flex-grow flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-lg font-serif">Khuôn Viên Mái Trường</h4>
+                            <p class="text-xs sm:text-sm text-slate-600 mt-1">Hàng cây xanh mát và khoảng sân trường rợp bóng cờ mỗi giờ ra chơi.</p>
+                        </div>
+                        <span class="mt-4 text-xs font-semibold text-amber-700 flex items-center gap-1">
+                            <i class="fas fa-map-marker-alt"></i> Sân trường kỷ niệm
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Ảnh 2: Lớp học & Thầy Cô -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 border border-amber-100 flex flex-col">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="assets/truong-2.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80';" alt="Lớp học" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                    </div>
+                    <div class="p-5 flex-grow flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-lg font-serif">Giờ Học Tình Thầy Trò</h4>
+                            <p class="text-xs sm:text-sm text-slate-600 mt-1">Những bài giảng mê say, tiếng phấn rơi cùng bài học làm người sâu sắc.</p>
+                        </div>
+                        <span class="mt-4 text-xs font-semibold text-amber-700 flex items-center gap-1">
+                            <i class="fas fa-chalkboard-teacher"></i> Lớp học thân thương
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Ảnh 3: Tập thể lớp / Hoạt động -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 border border-amber-100 flex flex-col">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="assets/truong-3.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80';" alt="Tập thể lớp" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                    </div>
+                    <div class="p-5 flex-grow flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-lg font-serif">Kỷ Niệm Tuổi Học Trò</h4>
+                            <p class="text-xs sm:text-sm text-slate-600 mt-1">Nụ cười rạng rỡ của bạn bè và Thầy Cô trong những ngày hội lớn.</p>
+                        </div>
+                        <span class="mt-4 text-xs font-semibold text-amber-700 flex items-center gap-1">
+                            <i class="fas fa-users"></i> Tập thể thân yêu
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: VIDEO TRI ÂN -->
+    <section id="video-section" class="py-24 px-4 bg-slate-950 text-white relative">
+        <div class="max-w-4xl mx-auto text-center relative z-20">
+            <span class="text-amber-400 font-semibold uppercase tracking-wider text-sm">Thước Phim Ý Nghĩa</span>
+            <h2 class="text-3xl sm:text-4xl font-serif font-bold text-gradient-gold mt-1">Giai Điệu Biết Ơn</h2>
+            <div class="w-16 h-1 bg-amber-500 mx-auto mt-3 rounded-full mb-10"></div>
+
+            <!-- Video Player Embedded -->
+            <div class="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl border-2 border-amber-500/30 bg-black">
+             
